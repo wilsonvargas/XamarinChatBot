@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace ChatBot.Server
+{
+    public static class AppSettings
+    {
+        public static readonly string TranslatorUriBase = "https://api.microsofttranslator.com/V2/Http.svc/";
+        public static readonly string TranslatorKey = "";
+        public static readonly string DefaultLanguage = "en";
+        public static readonly string UserLanguageKey = "LanguageCode";
+        public static readonly string OcpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
+    }
+}
