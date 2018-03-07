@@ -1,31 +1,123 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ChatBot.Server.Extensions;
+using ChatBot.Server.Helpers;
+using ChatBot.Server.Models;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace ChatBot.Server.Dialogs
 {
     [Serializable]
-    public class RootDialog : IDialog<object>
+    [LuisModel("c382651a-e936-49de-bafc-e131bd030e05", "81d08cadc86c493bba26ff425e8693de")]
+    public class RootDialog : LuisDialog<object>
     {
-        public Task StartAsync(IDialogContext context)
+        [LuisIntent("")]
+        public async Task None(IDialogContext context, LuisResult result)
         {
-            context.Wait(MessageReceivedAsync);
+            var response = ChatResponse.Default;
 
-            return Task.CompletedTask;
+            await context.PostAsync(await response.ToUserLocale(context));
+
+            context.Wait(MessageReceived);
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
+        [LuisIntent("Greeting")]
+        public async Task Greeting(IDialogContext context, LuisResult result)
         {
-            var activity = await result as Activity;
+            var response = ChatResponse.Greeting;
 
-            // calculate something for us to return
-            int length = (activity.Text ?? string.Empty).Length;
+            await context.PostAsync(await response.ToUserLocale(context));
 
-            // return our reply to the user
-            await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+            context.Wait(MessageReceived);
+        }
 
-            context.Wait(MessageReceivedAsync);
+        [LuisIntent("Farewell")]
+        public async Task Farewell(IDialogContext context, LuisResult result)
+        {
+            var response = ChatResponse.Farewell;
+
+            await context.PostAsync(await response.ToUserLocale(context));
+
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("Location")]
+        public async Task Location(IDialogContext context, LuisResult result)
+        {
+            var response = ChatResponse.Location;
+
+            await context.PostAsync(await response.ToUserLocale(context));
+
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("Delivery")]
+        public async Task Restaurant(IDialogContext context, LuisResult result)
+        {
+            var response = ChatResponse.Delivery;
+
+            await context.PostAsync(await response.ToUserLocale(context));
+
+            context.Wait(MessageReceived);
+        }
+
+
+        [LuisIntent("Wifi")]
+        public async Task Wifi(IDialogContext context, LuisResult result)
+        {
+            try
+            {
+                var response = ChatResponse.Wifi;
+
+                await context.PostAsync(await response.ToUserLocale(context));
+
+                context.Wait(MessageReceived);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [LuisIntent("Parking")]
+        public async Task Parking(IDialogContext context, LuisResult result)
+        {
+            try
+            {
+                var response = ChatResponse.Parking;
+
+                await context.PostAsync(await response.ToUserLocale(context));
+
+                context.Wait(MessageReceived);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [LuisIntent("Thanks")]
+        public async Task Thanks(IDialogContext context, LuisResult result)
+        {
+            try
+            {
+                var response = ChatResponse.Thanks;
+
+                await context.PostAsync(await response.ToUserLocale(context));
+
+                context.Wait(MessageReceived);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
