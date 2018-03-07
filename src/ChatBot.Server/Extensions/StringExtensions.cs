@@ -1,4 +1,4 @@
-﻿using ChatBot.Server.Services.AnalyticsService;
+﻿using ChatBot.Server.Services.TranslateService;
 using Microsoft.Bot.Builder.Dialogs;
 using System;
 using System.Collections.Generic;
