@@ -113,7 +113,7 @@ namespace ChatBot.Server
                         if (newMember.Id == message.Recipient.Id)
                         {
                             var reply = message.CreateReply();
-                            reply.Text = $"Hi, {newMember.Name} " + ChatResponse.Greeting;
+                            reply.Text = $"Hi {newMember.Name}, " + ChatResponse.Greeting;
                             await client.Conversations.ReplyToActivityAsync(reply);
                         }
                     }
