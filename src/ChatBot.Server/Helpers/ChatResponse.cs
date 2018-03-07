@@ -7,7 +7,7 @@ namespace ChatBot.Server.Helpers
 {
     public static class ChatResponse
     {
-        public static readonly string Greeting = "Hi! I can answer your questions about Xamarin Restaurant. \n\n" +
+        public static readonly string Greeting = "I can answer your questions about Xamarin Restaurant. \n\n" +
            "For reservations queries, please contact the restaurant directly on +51 999999999.";
 
         public static readonly string Delivery =
