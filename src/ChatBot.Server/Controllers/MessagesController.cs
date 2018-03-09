@@ -118,7 +118,6 @@ namespace ChatBot.Server
                         }
                     }
                 }
-
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {

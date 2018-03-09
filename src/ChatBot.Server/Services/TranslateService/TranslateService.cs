@@ -36,12 +36,12 @@ namespace ChatBot.Server.Services.TranslateService
         {
             if (inputLanguage != AppSettings.DefaultLanguage)
             {
-                return await Translate(activity.Text, inputLanguage, AppSettings.DefaultLanguage);
+                return await TranslateAsync(activity.Text, inputLanguage, AppSettings.DefaultLanguage);
             }
             return activity.Text;
         }
 
-        public static async Task<string> Translate(string inputText, string inputLocale, string outputLocale)
+        private static async Task<string> TranslateAsync(string inputText, string inputLocale, string outputLocale)
         {
             try
             {

@@ -1,0 +1,204 @@
+{
+  "luis_schema_version": "2.1.0",
+  "versionId": "0.1",
+  "name": "Restaurant Bot",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Farewell"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Location"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Delivery"
+    },
+    {
+      "name": "Parking"
+    },
+    {
+      "name": "Wifi"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "bing_entities": [],
+  "actions": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi there",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "goodbye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "bye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "see you later",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "cheers bye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "do you have parking",
+      "intent": "Parking",
+      "entities": []
+    },
+    {
+      "text": "is there a parking",
+      "intent": "Parking",
+      "entities": []
+    },
+    {
+      "text": "tell me about the parking",
+      "intent": "Parking",
+      "entities": []
+    },
+    {
+      "text": "is there parking",
+      "intent": "Parking",
+      "entities": []
+    },
+    {
+      "text": "do you have parking",
+      "intent": "Parking",
+      "entities": []
+    },
+    {
+      "text": "do you have delivery?",
+      "intent": "Delivery",
+      "entities": []
+    },
+    {
+      "text": "is there delivery in the restaurant?",
+      "intent": "Delivery",
+      "entities": []
+    },
+    {
+      "text": "does the restaurant have delivery",
+      "intent": "Delivery",
+      "entities": []
+    },
+    {
+      "text": "where is the restaurant located?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "is the restaurant far from town?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "where are you located?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "are you located int he city?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "are you located in the city ?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "how far from town is the restaurant?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "is the restaurant far from the city?",
+      "intent": "Location",
+      "entities": []
+    },
+    {
+      "text": "thanks goodbye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "ok thanks goodbye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "what about delivery?",
+      "intent": "Delivery",
+      "entities": []
+    },
+    {
+      "text": "thanks. what about delivery?",
+      "intent": "Delivery",
+      "entities": []
+    },
+    {
+      "text": "is there wifi?",
+      "intent": "Wifi",
+      "entities": []
+    },
+    {
+      "text": "do you have wifi?",
+      "intent": "Wifi",
+      "entities": []
+    },
+    {
+      "text": "any wifi?",
+      "intent": "Wifi",
+      "entities": []
+    },
+    {
+      "text": "do you have internet?",
+      "intent": "Wifi",
+      "entities": []
+    },
+    {
+      "text": "is internet free?",
+      "intent": "Wifi",
+      "entities": []
+    },
+    {
+      "text": "do we get internet included?",
+      "intent": "Wifi",
+      "entities": []
+    }
+  ]
+}
