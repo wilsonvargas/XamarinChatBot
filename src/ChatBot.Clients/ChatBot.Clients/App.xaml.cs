@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using ChatBot.Clients.Helpers;
+using ChatBot.Clients.Views;
 using Xamarin.Forms;
 
 namespace ChatBot.Clients
@@ -12,8 +13,15 @@ namespace ChatBot.Clients
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new ChatBot.Clients.MainPage();
+            if (Settings.IsLogin)
+            {
+                MainPage = new NavigationPage(new ChatView());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new LoginView());
+            }
+			
 		}
 
 		protected override void OnStart ()
