@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -27,10 +28,7 @@ namespace ChatBot.Clients.Services.BotService
                 if (_client == null)
                 {
                     _client = new HttpClient();
-                    _client.BaseAddress = new Uri(AppSettings.BaseBotEndPointAddress);
-                    _client.DefaultRequestHeaders.Accept.Clear();
-                    _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Authorization", "Bearer " + AppSettings.DirectLineKey);
+                    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AppSettings.DirectLineKey);
                 }
                 return _client;
             }
@@ -48,35 +46,23 @@ namespace ChatBot.Clients.Services.BotService
 
         #endregion
 
-        public async Task<MessageSet> Connect()
+        public async Task<Activity> Connect()
         {
             try
             {
-                var response = await Client.GetAsync("/api/tokens/");
-                if (response.IsSuccessStatusCode)
-                {
-                    var conversation = new Conversation();
-                    HttpContent contentPost = new StringContent(JsonConvert.SerializeObject(conversation), Encoding.UTF8,
-                        "application/json");
-                    response = await _client.PostAsync("/api/conversations/", contentPost);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var conversationInfo = await response.Content.ReadAsStringAsync();
-                        LastConversation = JsonConvert.DeserializeObject<Conversation>(conversationInfo);
-                        var conversationUrl = $"{AppSettings.BaseBotEndPointAddress}/api/conversations/{LastConversation.ConversationId}/messages/";
+                StringContent content = new StringContent("", Encoding.UTF8, "application/json");
 
+                string result = await PostAsync("https://directline.botframework.com/v3/directline/conversations/", content);
+                var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
+                var botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
+                
+                var activitiesReceived = await _client.GetAsync(botUriChat);
+                var activitiesReceivedData = await activitiesReceived.Content.ReadAsStringAsync();
 
-                        var resp = await _client.PostAsync(conversationUrl, contentPost);
-                        var messageInfo = await response.Content.ReadAsStringAsync();
+                var activities = JsonConvert.DeserializeObject<BotMessage>(activitiesReceivedData);
 
-                        var messagesReceived = await _client.GetAsync(conversationUrl);
-                        var messagesReceivedData = await messagesReceived.Content.ReadAsStringAsync();
-                        var messages = JsonConvert.DeserializeObject<MessageSet>(messagesReceivedData);
-
-                        return messages;
-                    }
-                }
-                return SetExceptionMessage();
+                var activity = activities.Activities.FirstOrDefault();
+                return activity;
             }
             catch (Exception ex)
             {
@@ -84,43 +70,35 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
-        public async Task<MessageSet> SendMessage(string message)
+        public async Task<Activity> SendMessage(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<string> PostAsync(string uri, HttpContent content)
         {
             try
             {
-                var messageToSend = new BotMessage() { Text = message, ConversationId = LastConversation.ConversationId };
-                var contentPost = new StringContent(JsonConvert.SerializeObject(messageToSend), Encoding.UTF8, "application/json");
-                var conversationUrl = $"{AppSettings.BaseBotEndPointAddress}/api/conversations/{LastConversation.ConversationId}/messages/";
+                HttpResponseMessage response = await Client.PostAsync(uri, content);
 
-
-                var response = await _client.PostAsync(conversationUrl, contentPost);
-                var messageInfo = await response.Content.ReadAsStringAsync();
-
-                var messagesReceived = await _client.GetAsync(conversationUrl);
-                var messagesReceivedData = await messagesReceived.Content.ReadAsStringAsync();
-
-                var messages = JsonConvert.DeserializeObject<MessageSet>(messagesReceivedData);
-
-                return messages;
+                Stream stream = await response.Content.ReadAsStreamAsync();
+                StreamReader readStream = new StreamReader(stream, Encoding.UTF8);
+                string result = readStream.ReadToEnd();
+                return result;
             }
             catch (Exception ex)
             {
-                return SetExceptionMessage();
+                return ex.ToString();
             }
         }
 
-        private static MessageSet SetExceptionMessage()
+        private static Activity SetExceptionMessage()
         {
-            return new MessageSet()
+            return new Activity()
             {
-                Messages = (new List<BotMessage>
-                {
-                    new BotMessage
-                    {
-                        Text = "Something went wrong!",
-                        From = "Bot"
-                    }
-                })
+
+                Text = "Something went wrong!",
+                From = new User() { Id = "", Name = "Bot"}
             };
         }
 
