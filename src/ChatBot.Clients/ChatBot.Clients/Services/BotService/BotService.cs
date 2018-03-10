@@ -11,12 +11,19 @@ namespace ChatBot.Clients.Services.BotService
 
         #region Properties
 
-        private HttpClient _cliente;
+        private HttpClient _client;
 
         public HttpClient Client
         {
-            get { return _cliente; }
-            set { _cliente = value; }
+            get
+            {
+                if (_client == null)
+                {
+                    _client = new HttpClient();
+                    _client.DefaultRequestHeaders.Add(AppSettings.OcpApimSubscriptionKeyHeader, AppSettings.TranslatorKey);
+                }
+                return _client;
+            }
         }
 
 
