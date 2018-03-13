@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:ChatBot.Clients.Converters"
              x:Class="ChatBot.Clients.App">
-	<Application.Resources>
+    <Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <!-- Application resource dictionary -->
         <ResourceDictionary>
             <!-- COLORS -->
             <Color x:Key="PrimaryColor">#0078D7</Color>
             <Color x:Key="SecundaryColor">#ECEFF1</Color>
+            <!--CONVERTERS-->
+            <converters:TypeToBackgroundConverter x:Key="TypeToBackgroundConverter" />
+            <converters:TypeToColumnConverter x:Key="TypeToColumnConverter" />
+            <converters:TypeToTextColorConverter x:Key="TypeToTextColorConverter" />
         </ResourceDictionary>
 
     </Application.Resources>

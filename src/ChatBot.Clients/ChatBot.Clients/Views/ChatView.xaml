@@ -1,12 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ChatBot.Clients.Views.ChatView">
+             xmlns:controls="clr-namespace:ButtonCircle.FormsPlugin.Abstractions;assembly=ButtonCircle.FormsPlugin.Abstractions"
+             x:Class="ChatBot.Clients.Views.ChatView"
+             Title="Bot">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Greeting}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid BackgroundColor="White">
+            <Grid Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+
+                <ListView x:Name="list"
+                          Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+                          ItemsSource="{Binding Activities, Mode=TwoWay}" 
+                          SeparatorVisibility="None"
+                          HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView>
+                                    <Grid Grid.RowSpacing="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="5" />
+                                        </Grid.RowDefinitions>
+
+                                        <Frame  Grid.ColumnSpan="2" Padding="5"
+                                                Grid.Column="{Binding From, Converter={StaticResource TypeToColumnConverter}}"
+                                                BackgroundColor="{Binding From, Converter={StaticResource TypeToBackgroundConverter}, ConverterParameter=1}">
+                                            
+                                                <Label Text="{Binding Text}" 
+                                                       TextColor="{Binding From, Converter={StaticResource TypeToTextColorConverter}, ConverterParameter=1}" 
+                                                       FontSize="Medium" LineBreakMode="WordWrap"
+                                                       VerticalOptions="Center"  />
+                                        </Frame>
+                                    </Grid>
+                                </ContentView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Entry Grid.Row="2" Grid.Column="1" 
+                       Placeholder="Escriba aquí" 
+                       Keyboard="Chat" Text="{Binding Text, Mode=TwoWay}"/>
+
+                <controls:CircleButton Grid.Row="2" Grid.Column="3" 
+                                       FontIcon="FontAwesome" 
+                                       TextColor="White"
+                                       HeightRequest="50"
+                                       WidthRequest="50"
+                                       BorderRadius="50"
+                                       BackgroundColor="{StaticResource PrimaryColor}" 
+                                       Icon="fa-send"/>
+            </Grid>
+            <StackLayout Grid.RowSpan="1" 
+                         IsVisible="{Binding IsBusy}"
+                         VerticalOptions="Fill"
+                         HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical" 
+                             VerticalOptions="CenterAndExpand" >
+                    <ActivityIndicator IsVisible="{Binding IsBusy}" 
+                                   IsRunning="{Binding IsBusy}"
+                                   Color="{StaticResource PrimaryColor}"/>
+                    <Label Text="Conectando..." HorizontalOptions="Center" TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>            
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -52,7 +52,7 @@ namespace ChatBot.Clients.Services.BotService
             {
                 StringContent content = new StringContent("", Encoding.UTF8, "application/json");
 
-                string result = await PostAsync("https://directline.botframework.com/v3/directline/conversations/", content);
+                string result = await PostAsync(AppSettings.BaseBotEndPointAddress, content);
                 var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
                 var botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
                 

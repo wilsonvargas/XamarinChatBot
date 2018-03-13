@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using ChatBot.Clients.Models;
 using ChatBot.Clients.Services.BotService;
 using Xamarin.Forms;
 
@@ -10,39 +10,31 @@ namespace ChatBot.Clients.ViewModels
     public class ChatViewModel : ViewModelBase
     {
         IBotService service;
-        private string _greeting;
 
-        public string Greeting
+        #region Properties
+        private ObservableCollection<Activity> activity;
+
+        public ObservableCollection<Activity> Activities
         {
-            get { return _greeting; }
-            set { _greeting = value; }
+            get { return activity; }
+            set { SetProperty(ref activity, value); }
         }
-        public Command LoadCommand
+        #endregion
+
+        public ICommand LoadCommand => new Command(async () => await Load());
+
+        public ChatViewModel(IBotService service)
         {
-            get;
-            set;
-        }
-
-
-        public ChatViewModel(IBotService service) {
             this.service = service;
-            LoadCommand = new Command(async () => await Load());
+            Activities = new ObservableCollection<Activity>();
         }
 
-        private async Task Load()
+        public async Task Load()
         {
-            try
-            {
-                IsBusy = true;
-                var greeting = await service.Connect();
-                Greeting = greeting.Text;
-                IsBusy = false;
-            }
-            catch (Exception ex)
-            {
-                IsBusy = false;
-                throw;
-            }
+            IsBusy = true;
+            var activity = await service.Connect();
+            Activities.Add(activity);
+            IsBusy = false;
         }
     }
 }
