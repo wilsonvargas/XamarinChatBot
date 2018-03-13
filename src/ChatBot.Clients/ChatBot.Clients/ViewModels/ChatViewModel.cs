@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ChatBot.Clients.Models;
@@ -19,9 +20,19 @@ namespace ChatBot.Clients.ViewModels
             get { return activity; }
             set { SetProperty(ref activity, value); }
         }
+
+        private string _text;
+
+        public string Text
+        {
+            get { return _text; }
+            set { SetProperty(ref _text, value); }
+        }
+
         #endregion
 
         public ICommand LoadCommand => new Command(async () => await Load());
+        public ICommand SendCommand => new Command(async () => await Send());
 
         public ChatViewModel(IBotService service)
         {
@@ -34,6 +45,22 @@ namespace ChatBot.Clients.ViewModels
             IsBusy = true;
             var activity = await service.Connect();
             Activities.Add(activity);
+            IsBusy = false;
+        }
+
+        private async Task Send()
+        {
+            IsBusy = true;
+            var activities = new Activity()
+            {
+                Text = "Hola",
+                ChannelId = "BotFramewrok",
+                From = new User() {
+                    Id = "ssss",
+                    Name = "Wilson"
+                }
+            };
+            Activities.Add(activities);
             IsBusy = false;
         }
     }

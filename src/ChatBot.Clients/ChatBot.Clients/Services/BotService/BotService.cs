@@ -17,6 +17,8 @@ namespace ChatBot.Clients.Services.BotService
 {
     public class BotService : IBotService
     {
+        private StringContent content = new StringContent("", Encoding.UTF8, "application/json");
+        private string botUriChat = "https://directline.botframework.com/v3/directline/conversations/{0}/activities";
         #region Properties
 
         private HttpClient _client;
@@ -49,12 +51,10 @@ namespace ChatBot.Clients.Services.BotService
         public async Task<Activity> Connect()
         {
             try
-            {
-                StringContent content = new StringContent("", Encoding.UTF8, "application/json");
-
+            {            
                 string result = await PostAsync(AppSettings.BaseBotEndPointAddress, content);
                 var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
-                var botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
+                botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
                 
                 var activitiesReceived = await _client.GetAsync(botUriChat);
                 var activitiesReceivedData = await activitiesReceived.Content.ReadAsStringAsync();
@@ -71,7 +71,8 @@ namespace ChatBot.Clients.Services.BotService
         }
 
         public async Task<Activity> SendMessage(string message)
-        {
+        { 
+            var postResult = JsonConvert.DeserializeObject<ConversationId>(await PostAsync(botUriChat, content));
             throw new NotImplementedException();
         }
 

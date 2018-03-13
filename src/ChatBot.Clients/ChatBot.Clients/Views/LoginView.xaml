@@ -18,7 +18,7 @@
                     <StackLayout HorizontalOptions="FillAndExpand" Margin="0,20,0,0">
                         <Label Text="Nombre de usuario" FontSize="Micro" 
                                TextColor="{StaticResource PrimaryColor}"/>
-                        <Entry Keyboard="Email" Text="{Binding Email}"/>
+                        <Entry Keyboard="Email" Text="{Binding UserName}"/>
                         <Label Text="{Binding ErrorMessage}" 
                                FontSize="Small"
                                TextColor="{StaticResource PrimaryColor}"

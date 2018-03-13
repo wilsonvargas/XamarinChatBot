@@ -68,7 +68,8 @@
                                        WidthRequest="50"
                                        BorderRadius="50"
                                        BackgroundColor="{StaticResource PrimaryColor}" 
-                                       Icon="fa-send"/>
+                                       Icon="fa-send"
+                                       Command="{Binding SendCommand}"/>
             </Grid>
             <StackLayout Grid.RowSpan="1" 
                          IsVisible="{Binding IsBusy}"
