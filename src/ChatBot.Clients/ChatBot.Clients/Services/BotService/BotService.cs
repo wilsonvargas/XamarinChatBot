@@ -36,6 +36,21 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
+        private HttpClient _clientChat;
+
+        public HttpClient ClientChat
+        {
+            get
+            {
+                if (_clientChat == null)
+                {
+                    _clientChat = new HttpClient();
+                    _clientChat.DefaultRequestHeaders.Add("Authorization", "Bearer " + AppSettings.DirectLineKey);
+                }
+                return _clientChat;
+            }
+        }
+
         private Conversation conversation;
 
         public Conversation LastConversation
@@ -56,7 +71,7 @@ namespace ChatBot.Clients.Services.BotService
                 var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
                 botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
                 
-                var activitiesReceived = await _client.GetAsync(botUriChat);
+                var activitiesReceived = await Client.GetAsync(botUriChat);
                 var activitiesReceivedData = await activitiesReceived.Content.ReadAsStringAsync();
 
                 var activities = JsonConvert.DeserializeObject<BotMessage>(activitiesReceivedData);
@@ -73,6 +88,8 @@ namespace ChatBot.Clients.Services.BotService
         public async Task<Activity> SendMessage(string message)
         { 
             var postResult = JsonConvert.DeserializeObject<ConversationId>(await PostAsync(botUriChat, content));
+            string jsonResultFromBot = await Client.GetStringAsync(botUriChat + "?watermark=322");
+            var botMessage = JsonConvert.DeserializeObject<BotMessage>(jsonResultFromBot);
             throw new NotImplementedException();
         }
 
@@ -81,7 +98,6 @@ namespace ChatBot.Clients.Services.BotService
             try
             {
                 HttpResponseMessage response = await Client.PostAsync(uri, content);
-
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 StreamReader readStream = new StreamReader(stream, Encoding.UTF8);
                 string result = readStream.ReadToEnd();
@@ -99,7 +115,7 @@ namespace ChatBot.Clients.Services.BotService
             {
 
                 Text = "Something went wrong!",
-                From = new User() { Id = "", Name = "Bot"}
+                From = new User() { Id = "", Name = "ChatBotXamarin"}
             };
         }
 

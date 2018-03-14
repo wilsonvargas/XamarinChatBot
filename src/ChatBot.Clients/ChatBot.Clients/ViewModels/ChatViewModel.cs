@@ -51,15 +51,7 @@ namespace ChatBot.Clients.ViewModels
         private async Task Send()
         {
             IsBusy = true;
-            var activities = new Activity()
-            {
-                Text = "Hola",
-                ChannelId = "BotFramewrok",
-                From = new User() {
-                    Id = "ssss",
-                    Name = "Wilson"
-                }
-            };
+            var activities = await service.SendMessage(Text);
             Activities.Add(activities);
             IsBusy = false;
         }

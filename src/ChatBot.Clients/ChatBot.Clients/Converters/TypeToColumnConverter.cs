@@ -20,7 +20,7 @@ namespace ChatBot.Clients.Converters
             }
             else
             {
-                column = 1;
+                column = 2;
             }
             return column;
 
