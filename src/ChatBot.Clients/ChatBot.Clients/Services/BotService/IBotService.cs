@@ -9,6 +9,6 @@ namespace ChatBot.Clients.Services.BotService
     public interface IBotService
     {
         Task<Activity> Connect();
-        Task<Activity> SendMessage(string message);
+        Task<Activity> SendMessage(Activity message);
     }
 }

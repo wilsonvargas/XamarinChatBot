@@ -27,6 +27,8 @@ namespace ChatBot.Clients.Helpers
         private static readonly bool IsLoginDefault = false;
         private const string UserNameKey = "username_key";
         private static readonly string UserNameDefault = "";
+        private const string ConversationIdKey = "conversation_key";
+        private static readonly string ConversationIdDefault = "";
 
         #endregion
 
@@ -52,6 +54,18 @@ namespace ChatBot.Clients.Helpers
             set
             {
                 AppSettings.AddOrUpdateValue(UserNameKey, value);
+            }
+        }
+
+        public static string ConversationId
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(ConversationIdKey, ConversationIdDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(ConversationIdKey, value);
             }
         }
 

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using ChatBot.Clients.Helpers;
 using ChatBot.Clients.Models;
 using ChatBot.Clients.Services.BotService;
 using Newtonsoft.Json;
@@ -17,8 +18,10 @@ namespace ChatBot.Clients.Services.BotService
 {
     public class BotService : IBotService
     {
-        private StringContent content = new StringContent("", Encoding.UTF8, "application/json");
-        private string botUriChat = "https://directline.botframework.com/v3/directline/conversations/{0}/activities";
+        private string botUriChat = "https://directline.botframework.com/v3/directline/conversations/{0}/messages";
+        private string conversationId = "";
+        private BotMessage Conversation;
+
         #region Properties
 
         private HttpClient _client;
@@ -36,48 +39,33 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
-        private HttpClient _clientChat;
-
-        public HttpClient ClientChat
-        {
-            get
-            {
-                if (_clientChat == null)
-                {
-                    _clientChat = new HttpClient();
-                    _clientChat.DefaultRequestHeaders.Add("Authorization", "Bearer " + AppSettings.DirectLineKey);
-                }
-                return _clientChat;
-            }
-        }
-
-        private Conversation conversation;
-
-        public Conversation LastConversation
-        {
-            get { return conversation; }
-            set { conversation = value; }
-        }
-
-
-
         #endregion
 
         public async Task<Activity> Connect()
         {
             try
-            {            
+            {
+                StringContent content = new StringContent("", Encoding.UTF8, "application/json");
                 string result = await PostAsync(AppSettings.BaseBotEndPointAddress, content);
                 var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
-                botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities", conversationResponse.ConversationId);
-                
+                botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities/", conversationResponse.ConversationId);
+                Settings.ConversationId = conversationResponse.ConversationId;
+                conversationId = conversationResponse.ConversationId;
                 var activitiesReceived = await Client.GetAsync(botUriChat);
                 var activitiesReceivedData = await activitiesReceived.Content.ReadAsStringAsync();
 
-                var activities = JsonConvert.DeserializeObject<BotMessage>(activitiesReceivedData);
+                Conversation = JsonConvert.DeserializeObject<BotMessage>(activitiesReceivedData);
 
-                var activity = activities.Activities.FirstOrDefault();
-                return activity;
+                var activity = Conversation.Activities.FirstOrDefault();
+                if (activity != null)
+                {
+                    return activity;
+                }
+                else
+                {
+                    return SetExceptionMessage();
+                }
+
             }
             catch (Exception ex)
             {
@@ -85,12 +73,23 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
-        public async Task<Activity> SendMessage(string message)
-        { 
-            var postResult = JsonConvert.DeserializeObject<ConversationId>(await PostAsync(botUriChat, content));
-            string jsonResultFromBot = await Client.GetStringAsync(botUriChat + "?watermark=322");
-            var botMessage = JsonConvert.DeserializeObject<BotMessage>(jsonResultFromBot);
-            throw new NotImplementedException();
+        public async Task<Activity> SendMessage(Activity message)
+        {
+            BotMessage conversation;
+            var contentPost = new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json");
+            var postResult = JsonConvert.DeserializeObject<ConversationId>(await PostAsync(botUriChat, contentPost));
+
+            string jsonResultFromBot = await Client.GetStringAsync(botUriChat + "?watermark=" + Conversation.Watermark);
+            conversation = JsonConvert.DeserializeObject<BotMessage>(jsonResultFromBot);
+            if (conversation != null)
+            {
+                return conversation.Activities.Last();
+            }
+            else
+            {
+                return SetExceptionMessage();
+            }
+
         }
 
         private async Task<string> PostAsync(string uri, HttpContent content)
@@ -115,7 +114,7 @@ namespace ChatBot.Clients.Services.BotService
             {
 
                 Text = "Something went wrong!",
-                From = new User() { Id = "", Name = "ChatBotXamarin"}
+                From = new User() { Id = "", Name = "ChatBotXamarin" }
             };
         }
 

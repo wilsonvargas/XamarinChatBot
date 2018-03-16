@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ChatBot.Clients.Helpers;
 using ChatBot.Clients.Models;
 using ChatBot.Clients.Services.BotService;
 using Xamarin.Forms;
@@ -50,9 +51,20 @@ namespace ChatBot.Clients.ViewModels
 
         private async Task Send()
         {
+            var messageToSend = new Activity()
+            {
+                From = new User() { Id = Guid.NewGuid().ToString(), Name = Settings.UserName },
+                Text = this.Text,
+                ConversationId = new ConversationId() { Id = Settings.ConversationId },
+                Timestamp = DateTime.Now,
+                Id = Guid.NewGuid().ToString(),
+                Type = "message"
+            };
+            Activities.Add(messageToSend);
+            Text = string.Empty;
             IsBusy = true;
-            var activities = await service.SendMessage(Text);
-            Activities.Add(activities);
+            var activity = await service.SendMessage(messageToSend);
+            Activities.Add(activity);
             IsBusy = false;
         }
     }
