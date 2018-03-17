@@ -5,10 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gif.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gif.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     <PackageReference Include="Plugins.Forms.ButtonCircle" Version="2.0.2" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.1.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.3.4" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.3.4" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
   </ItemGroup>
 
