@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>ChatBot.Clients</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.ChatBot.Clients</string>
+	<string>com.wilsonvargas.apps</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
@@ -50,5 +50,10 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>ChatBot.Clients</string>
+  <key>UIAppFonts</key>
+  <array>
+    <string>materialicons.ttf</string>
+    <string>fontawesome.ttf</string>
+  </array>
 </dict>
 </plist>

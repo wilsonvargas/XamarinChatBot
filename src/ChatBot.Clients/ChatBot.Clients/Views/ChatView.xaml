@@ -59,7 +59,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <StackLayout Grid.Row="2" Grid.Column="1" IsVisible="{Binding IsBusy}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
+                <StackLayout Grid.Row="2" Grid.Column="1" IsVisible="{Binding IsBusy}" 
+                             HorizontalOptions="StartAndExpand" VerticalOptions="Start">
                     <StackLayout Orientation="Vertical" 
                              VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
                         <animations:AnimationView 
