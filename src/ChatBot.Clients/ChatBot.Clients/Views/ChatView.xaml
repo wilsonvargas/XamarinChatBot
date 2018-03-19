@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:ButtonCircle.FormsPlugin.Abstractions;assembly=ButtonCircle.FormsPlugin.Abstractions"
-             xmlns:ffimagesloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:animations="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              x:Class="ChatBot.Clients.Views.ChatView"
              Title="Bot">
     <ContentPage.Content>
@@ -46,8 +46,8 @@
                                         <Frame  Grid.ColumnSpan="2" Padding="5"
                                                 Grid.Column="{Binding From, Converter={StaticResource TypeToColumnConverter}}"
                                                 BackgroundColor="{Binding From, Converter={StaticResource TypeToBackgroundConverter}, ConverterParameter=1}">
-                                            
-                                                <Label Text="{Binding Text}" 
+
+                                            <Label Text="{Binding Text}" 
                                                        TextColor="{Binding From, Converter={StaticResource TypeToTextColorConverter}, ConverterParameter=1}" 
                                                        FontSize="Medium" LineBreakMode="WordWrap"
                                                        VerticalOptions="Center"  />
@@ -59,14 +59,21 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <StackLayout Grid.Row="2" Grid.Column="1" BackgroundColor="Red" IsVisible="{Binding IsBusy}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                <StackLayout Grid.Row="2" Grid.Column="1" IsVisible="{Binding IsBusy}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
                     <StackLayout Orientation="Vertical" 
-                             VerticalOptions="CenterAndExpand" >
-                        <Label Text="Conectando..." HorizontalOptions="Center" TextColor="Black"/>
-                        <ffimagesloading:CachedImage Source="//resources:ChatBot.Client.gif.gif"/>
+                             VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
+                        <animations:AnimationView 
+                            x:Name="AnimationView"
+                            Animation="loading.json"
+                            HeightRequest="30"
+                            WidthRequest="50"
+                            Loop="True"
+                            AutoPlay="True"
+                            VerticalOptions="EndAndExpand"
+                            HorizontalOptions="StartAndExpand" />
                     </StackLayout>
                 </StackLayout>
-                
+
                 <Entry Grid.Row="3" Grid.Column="1" 
                        Placeholder="Escriba aquí" 
                        Keyboard="Chat" Text="{Binding Text, Mode=TwoWay}"/>
@@ -81,7 +88,7 @@
                                        Icon="fa-send"
                                        Command="{Binding SendCommand}"/>
             </Grid>
-                
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>
