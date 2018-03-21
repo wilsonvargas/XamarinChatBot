@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="5" />
                 </Grid.ColumnDefinitions>
 
-                <ListView x:Name="list"
+                <ListView x:Name="messages"
                           Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{Binding Activities, Mode=TwoWay}" 
                           SeparatorVisibility="None"

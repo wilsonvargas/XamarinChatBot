@@ -102,8 +102,10 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ChatBot.Clients.UWP_TemporaryKey.pfx" />
+    <None Include="loading.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="logo.PNG" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

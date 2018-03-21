@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatBot.Clients.Models;
 using ChatBot.Clients.Services.BotService;
 using ChatBot.Clients.ViewModels;
 using Xamarin.Forms;
@@ -17,12 +18,16 @@ namespace ChatBot.Clients.Views
 		public ChatView ()
 		{
 			InitializeComponent ();
-            BindingContext = vm = new ChatViewModel(DependencyService.Get<IBotService>());
+            BindingContext = vm = new ChatViewModel(DependencyService.Get<IBotService>());            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            MessagingCenter.Subscribe<object, object>(this, "AutoScroll", (sender, arg) => {
+                var message = (Activity)arg;
+                messages.ScrollTo(message, ScrollToPosition.End, false);
+            });
             vm.LoadCommand.Execute(null);
         }
     }

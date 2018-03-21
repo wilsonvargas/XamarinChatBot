@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ChatBot.Clients.Helpers;
@@ -62,10 +63,12 @@ namespace ChatBot.Clients.ViewModels
             };
             Activities.Add(messageToSend);
             Text = string.Empty;
+            MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
             IsBusy = true;
             var activity = await service.SendMessage(messageToSend);
             Activities.Add(activity);
             IsBusy = false;
+            MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
         }
     }
 }
