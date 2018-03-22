@@ -28,7 +28,8 @@ namespace ChatBot.Clients.ViewModels
         public LoginViewModel()
         {
             LoginCommand = new Command(async () => await Login());            
-        }
+        }   
+
 
         private async Task Login()
         {

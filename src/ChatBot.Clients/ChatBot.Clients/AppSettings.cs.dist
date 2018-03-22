@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ChatBot.Clients
+{
+    public static class AppSettings
+    {
+        public static readonly string DirectLineKey = "";
+        public static readonly string BaseBotEndPointAddress = "https://directline.botframework.com/v3/directline/conversations/";
+    }
+}
