@@ -18,9 +18,7 @@ namespace ChatBot.Clients.Services.BotService
 {
     public class BotService : IBotService
     {
-        private string botUriChat = "https://directline.botframework.com/v3/directline/conversations/{0}/messages";
-        private string conversationId = "";
-        private BotMessage Conversation;
+        private string botUriChat = "";
 
         #region Properties
 
@@ -39,6 +37,14 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
+        private BotMessage _conversation;
+
+        public BotMessage Conversation
+        {
+            get { return _conversation; }
+            set { _conversation = value; }
+        }
+
         #endregion
 
         public async Task<Activity> Connect()
@@ -48,9 +54,8 @@ namespace ChatBot.Clients.Services.BotService
                 StringContent content = new StringContent("", Encoding.UTF8, "application/json");
                 string result = await PostAsync(AppSettings.BaseBotEndPointAddress, content);
                 var conversationResponse = JsonConvert.DeserializeObject<Conversation>(result);
-                botUriChat = String.Format("https://directline.botframework.com/v3/directline/conversations/{0}/activities/", conversationResponse.ConversationId);
+                botUriChat = String.Format(AppSettings.BaseBotUriChat, conversationResponse.ConversationId);
                 Settings.ConversationId = conversationResponse.ConversationId;
-                conversationId = conversationResponse.ConversationId;
                 var activitiesReceived = await Client.GetAsync(botUriChat);
                 var activitiesReceivedData = await activitiesReceived.Content.ReadAsStringAsync();
 
@@ -63,7 +68,7 @@ namespace ChatBot.Clients.Services.BotService
                 }
                 else
                 {
-                    return SetExceptionMessage();
+                    return await Connect();
                 }
 
             }

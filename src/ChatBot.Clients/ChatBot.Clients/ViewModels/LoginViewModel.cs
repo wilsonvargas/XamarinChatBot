@@ -20,15 +20,10 @@ namespace ChatBot.Clients.ViewModels
             get { return _username; }
             set { SetProperty(ref _username, value); }
         }
-    
-        public ICommand LoginCommand { get; set; }
+
+        public ICommand LoginCommand => new Command(async () => await Login());
 
         #endregion
-
-        public LoginViewModel()
-        {
-            LoginCommand = new Command(async () => await Login());            
-        }   
 
 
         private async Task Login()

@@ -52,23 +52,27 @@ namespace ChatBot.Clients.ViewModels
 
         private async Task Send()
         {
-            var messageToSend = new Activity()
+            if (Text != null && Text != "")
             {
-                From = new User() { Id = Guid.NewGuid().ToString(), Name = Settings.UserName },
-                Text = this.Text,
-                ConversationId = new ConversationId() { Id = Settings.ConversationId },
-                Timestamp = DateTime.Now,
-                Id = Guid.NewGuid().ToString(),
-                Type = "message"
-            };
-            Activities.Add(messageToSend);
-            Text = string.Empty;
-            MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
-            IsBusy = true;
-            var activity = await service.SendMessage(messageToSend);
-            Activities.Add(activity);
-            IsBusy = false;
-            MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
+                var messageToSend = new Activity()
+                {
+                    From = new User() { Id = Guid.NewGuid().ToString(), Name = Settings.UserName },
+                    Text = this.Text,
+                    ConversationId = new ConversationId() { Id = Settings.ConversationId },
+                    Timestamp = DateTime.Now,
+                    Id = Guid.NewGuid().ToString(),
+                    Type = "message"
+                };
+                Activities.Add(messageToSend);
+                Text = string.Empty;
+                MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
+                IsBusy = true;
+                var activity = await service.SendMessage(messageToSend);
+                Activities.Add(activity);
+                IsBusy = false;
+                MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
+            }
+            
         }
     }
 }
