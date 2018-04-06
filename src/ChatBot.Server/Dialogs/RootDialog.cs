@@ -15,7 +15,7 @@ using System.Web;
 namespace ChatBot.Server.Dialogs
 {
     [Serializable]
-    [LuisModel("772681f5-1cfb-4636-abbd-9f454360996c", "81d08cadc86c493bba26ff425e8693de")]
+    [LuisModel("HERE_YOUR_APP_KEY", "HERE_YOUR_APP_KEY")]
     public class RootDialog : LuisDialog<object>
     {
         [LuisIntent("")]
