@@ -29,3 +29,33 @@ You can find the following content related to this sample:
 * [Creating your free Azure account](https://azure.microsoft.com/en-us/free/)
 * [Integrating Bot Framework with Xamarin.Forms - Azure Setup](https://blog.wilsonvargas.com/integrando-bot-framework-con-xamarin-forms-parte-1/)
 * [Integrating Bot Framework with Xamarin.Forms - Xamarin Deploy](https://blog.wilsonvargas.com/integrando-bot-framework-con-xamarin-forms-parte-2/)
+
+
+## Setup
+For security reasons I use a file called [AppSettings.cs.dist](/src/ChatBot.Server/AppSettings.cs.dist) you must change their name to **AppSettings.cs** and complete with your credentials obtained in your azure account:
+
+### Server project
+
+```cs
+public static class AppSettings
+{
+    public static readonly string TranslatorUriBase = "https://api.microsofttranslator.com/V2/Http.svc/";
+    public static readonly string TranslatorKey = "";
+    public static readonly string DefaultLanguage = "en";
+    public static readonly string UserLanguageKey = "LanguageCode";
+    public static readonly string OcpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
+}
+```
+
+### Client project 
+[AppSettings.cs.dist](/src/ChatBot.Clients/ChatBot.Clients/AppSettings.cs.dist)
+
+```cs
+public static class AppSettings
+{
+    public static readonly string DirectLineKey = "";
+    public static readonly string BaseBotEndPointAddress = "https://directline.botframework.com/v3/directline/conversations/";
+}
+```
+
+
