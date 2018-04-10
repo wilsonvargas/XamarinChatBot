@@ -13,6 +13,9 @@ Built with Xamarin.Forms with support for:
     iOS
     Android
 
+Build status: [![Build status](https://ci.appveyor.com/api/projects/status/672e7943803fw3ft?svg=true)](https://ci.appveyor.com/project/wilsonvargas/xamarinchatbot)
+
+
 
 ![image](https://raw.githubusercontent.com/wilsonvargas/XamarinChatBot/master/images/image.png)
 
