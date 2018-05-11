@@ -13,7 +13,7 @@ Built with Xamarin.Forms with support for:
     iOS
     Android
 
-Build status: [![Build status](https://ci.appveyor.com/api/projects/status/672e7943803fw3ft?svg=true)](https://ci.appveyor.com/project/wilsonvargas/xamarinchatbot)
+[![Build status](https://ci.appveyor.com/api/projects/status/672e7943803fw3ft?svg=true)](https://ci.appveyor.com/project/wilsonvargas/xamarinchatbot) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/wilsondonations/5)
 
 
 
