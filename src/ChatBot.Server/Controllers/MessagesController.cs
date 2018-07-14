@@ -1,11 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Autofac;
+﻿using Autofac;
 using ChatBot.Server.Dialogs;
 using ChatBot.Server.Helpers;
 using ChatBot.Server.Models;
@@ -13,6 +6,13 @@ using ChatBot.Server.Services.TranslateService;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace ChatBot.Server
 {
@@ -46,7 +46,6 @@ namespace ChatBot.Server
                                 ConversationId = message.Conversation.Id,
                                 ServiceUrl = message.ServiceUrl
                             };
-
 
                             var userData = await botDataStore.LoadAsync(key, BotStoreType.BotUserData, CancellationToken.None);
 
@@ -87,7 +86,6 @@ namespace ChatBot.Server
             {
                 throw ex;
             }
-
         }
 
         private async Task<Activity> HandleSystemMessage(Activity message)

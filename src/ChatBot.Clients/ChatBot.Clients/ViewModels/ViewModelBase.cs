@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace ChatBot.Clients.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        string title = string.Empty;
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets or sets the title.
+        /// Gets or sets the error message.
         /// </summary>
-        /// <value>The title.</value>
-        public string Title
+        /// <value>The error message.</value>
+        public string ErrorMessage
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get { return errorMessage; }
+            set { SetProperty(ref errorMessage, value); }
         }
-
-        string icon = string.Empty;
 
         /// <summary>
         /// Gets or sets the icon.
@@ -31,8 +31,6 @@ namespace ChatBot.Clients.ViewModels
             get { return icon; }
             set { SetProperty(ref icon, value); }
         }
-
-        bool isBusy;
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is busy.
@@ -47,19 +45,26 @@ namespace ChatBot.Clients.ViewModels
             }
         }
 
-
-        string errorMessage = string.Empty;
-
         /// <summary>
-        /// Gets or sets the error message.
+        /// Gets or sets the title.
         /// </summary>
-        /// <value>The error message.</value>
-        public string ErrorMessage
+        /// <value>The title.</value>
+        public string Title
         {
-            get { return errorMessage; }
-            set { SetProperty(ref errorMessage, value); }
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
+        private string errorMessage = string.Empty;
+        private string icon = string.Empty;
+        private bool isBusy;
+        private string title = string.Empty;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        protected void OnPropertyChanged([CallerMemberName]string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Sets the property.
@@ -83,16 +88,5 @@ namespace ChatBot.Clients.ViewModels
             OnPropertyChanged(propertyName);
             return true;
         }
-
-        /// <summary>
-        /// Occurs when property changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Raises the property changed event.
-        /// </summary>
-        /// <param name="propertyName">Property name.</param>
-        protected void OnPropertyChanged([CallerMemberName]string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
     }
 }

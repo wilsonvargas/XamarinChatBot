@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Plugin.Settings;
+﻿using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
 namespace ChatBot.Clients.Helpers
@@ -9,29 +6,21 @@ namespace ChatBot.Clients.Helpers
     /// <summary>
 	/// This is the Settings static class that can be used in your Core solution or in any
 	/// of your client applications. All settings are laid out the same exact way with getters
-	/// and setters. 
+	/// and setters.
 	/// </summary>
 	public static class Settings
     {
-        private static ISettings AppSettings
+        public static string ConversationId
         {
             get
             {
-                return CrossSettings.Current;
+                return AppSettings.GetValueOrDefault(ConversationIdKey, ConversationIdDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(ConversationIdKey, value);
             }
         }
-
-        #region Setting Constants
-
-        private const string IsLoginKey = "login_key";
-        private static readonly bool IsLoginDefault = false;
-        private const string UserNameKey = "username_key";
-        private static readonly string UserNameDefault = "";
-        private const string ConversationIdKey = "conversation_key";
-        private static readonly string ConversationIdDefault = "";
-
-        #endregion
-
 
         public static bool IsLogin
         {
@@ -57,17 +46,23 @@ namespace ChatBot.Clients.Helpers
             }
         }
 
-        public static string ConversationId
+        private static ISettings AppSettings
         {
             get
             {
-                return AppSettings.GetValueOrDefault(ConversationIdKey, ConversationIdDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(ConversationIdKey, value);
+                return CrossSettings.Current;
             }
         }
 
+        #region Setting Constants
+
+        private const string ConversationIdKey = "conversation_key";
+        private const string IsLoginKey = "login_key";
+        private const string UserNameKey = "username_key";
+        private static readonly string ConversationIdDefault = "";
+        private static readonly bool IsLoginDefault = false;
+        private static readonly string UserNameDefault = "";
+
+        #endregion Setting Constants
     }
 }

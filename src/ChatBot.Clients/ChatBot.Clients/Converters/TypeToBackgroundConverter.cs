@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ChatBot.Clients.Models;
+﻿using ChatBot.Clients.Models;
+using System;
 using Xamarin.Forms;
 
 namespace ChatBot.Clients.Converters
@@ -12,7 +10,7 @@ namespace ChatBot.Clients.Converters
         {
             int parameterType = int.Parse(parameter.ToString());
             Xamarin.Forms.Color background = Color.Silver;
-            User user = (User) value;
+            User user = (User)value;
             var localUser = Helpers.Settings.UserName;
             if (user.Name == localUser)
             {

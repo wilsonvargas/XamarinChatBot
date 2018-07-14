@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using ChatBot.Clients.Helpers;
+﻿using ChatBot.Clients.Helpers;
 using ChatBot.Clients.Views;
 using Plugin.Connectivity;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ChatBot.Clients.ViewModels
@@ -13,7 +11,8 @@ namespace ChatBot.Clients.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         #region Properties
-        private string _username;
+
+        public ICommand LoginCommand => new Command(async () => await Login());
 
         public string UserName
         {
@@ -21,10 +20,9 @@ namespace ChatBot.Clients.ViewModels
             set { SetProperty(ref _username, value); }
         }
 
-        public ICommand LoginCommand => new Command(async () => await Login());
+        private string _username;
 
-        #endregion
-
+        #endregion Properties
 
         private async Task Login()
         {
@@ -49,6 +47,5 @@ namespace ChatBot.Clients.ViewModels
                 ErrorMessage = ex.Message;
             }
         }
-
     }
 }

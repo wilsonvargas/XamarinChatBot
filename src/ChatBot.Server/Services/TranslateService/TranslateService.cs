@@ -1,8 +1,6 @@
 ﻿using Microsoft.Bot.Connector;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +12,8 @@ namespace ChatBot.Server.Services.TranslateService
 {
     public class TranslateService
     {
-
         #region Properties
 
-        private static HttpClient _client;
         public static HttpClient Client
         {
             get
@@ -30,7 +26,28 @@ namespace ChatBot.Server.Services.TranslateService
                 return _client;
             }
         }
-        #endregion
+
+        private static HttpClient _client;
+
+        #endregion Properties
+
+        public static async Task<string> DetermineLanguageAsync(string input)
+        {
+            try
+            {
+                string uri = $"{AppSettings.TranslatorUriBase}Detect?text=" + HttpUtility.UrlEncode(input);
+
+                HttpResponseMessage response = await Client.GetAsync(uri);
+                string result = await response.Content.ReadAsStringAsync();
+
+                var content = XElement.Parse(result).Value;
+                return content;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public static async Task<string> TranslateTextToDefaultLanguage(Activity activity, string inputLanguage)
         {
@@ -64,25 +81,5 @@ namespace ChatBot.Server.Services.TranslateService
                 throw ex;
             }
         }
-
-        public static async Task<string> DetermineLanguageAsync(string input)
-        {
-            try
-            {
-                string uri = $"{AppSettings.TranslatorUriBase}Detect?text=" + HttpUtility.UrlEncode(input);
-
-                HttpResponseMessage response = await Client.GetAsync(uri);
-                string result = await response.Content.ReadAsStringAsync();
-
-                var content = XElement.Parse(result).Value;
-                return content;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
     }
 }

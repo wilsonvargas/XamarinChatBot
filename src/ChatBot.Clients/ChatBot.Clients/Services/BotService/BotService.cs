@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using ChatBot.Clients.Helpers;
+﻿using ChatBot.Clients.Helpers;
 using ChatBot.Clients.Models;
 using ChatBot.Clients.Services.BotService;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(BotService))]
+
 namespace ChatBot.Clients.Services.BotService
 {
     public class BotService : IBotService
@@ -21,8 +19,6 @@ namespace ChatBot.Clients.Services.BotService
         private string botUriChat = "";
 
         #region Properties
-
-        private HttpClient _client;
 
         public HttpClient Client
         {
@@ -37,15 +33,16 @@ namespace ChatBot.Clients.Services.BotService
             }
         }
 
-        private BotMessage _conversation;
-
         public BotMessage Conversation
         {
             get { return _conversation; }
             set { _conversation = value; }
         }
 
-        #endregion
+        private HttpClient _client;
+        private BotMessage _conversation;
+
+        #endregion Properties
 
         public async Task<Activity> Connect()
         {
@@ -70,7 +67,6 @@ namespace ChatBot.Clients.Services.BotService
                 {
                     return await Connect();
                 }
-
             }
             catch (Exception ex)
             {
@@ -94,7 +90,15 @@ namespace ChatBot.Clients.Services.BotService
             {
                 return SetExceptionMessage();
             }
+        }
 
+        private static Activity SetExceptionMessage()
+        {
+            return new Activity()
+            {
+                Text = "Something went wrong!",
+                From = new User() { Id = "", Name = "ChatBotXamarin" }
+            };
         }
 
         private async Task<string> PostAsync(string uri, HttpContent content)
@@ -112,16 +116,5 @@ namespace ChatBot.Clients.Services.BotService
                 return ex.ToString();
             }
         }
-
-        private static Activity SetExceptionMessage()
-        {
-            return new Activity()
-            {
-
-                Text = "Something went wrong!",
-                From = new User() { Id = "", Name = "ChatBotXamarin" }
-            };
-        }
-
     }
 }

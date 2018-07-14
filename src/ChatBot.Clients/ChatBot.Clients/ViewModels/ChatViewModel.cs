@@ -1,21 +1,28 @@
-﻿using System;
+﻿using ChatBot.Clients.Helpers;
+using ChatBot.Clients.Models;
+using ChatBot.Clients.Services.BotService;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ChatBot.Clients.Helpers;
-using ChatBot.Clients.Models;
-using ChatBot.Clients.Services.BotService;
 using Xamarin.Forms;
 
 namespace ChatBot.Clients.ViewModels
 {
     public class ChatViewModel : ViewModelBase
     {
-        IBotService service;
+        public ChatViewModel(IBotService service)
+        {
+            this.service = service;
+            Activities = new ObservableCollection<Activity>();
+        }
+
+        public ICommand LoadCommand => new Command(async () => await Load());
+        public ICommand SendCommand => new Command(async () => await Send());
+        private IBotService service;
 
         #region Properties
-        private ObservableCollection<Activity> activity;
 
         public ObservableCollection<Activity> Activities
         {
@@ -23,24 +30,16 @@ namespace ChatBot.Clients.ViewModels
             set { SetProperty(ref activity, value); }
         }
 
-        private string _text;
-
         public string Text
         {
             get { return _text; }
             set { SetProperty(ref _text, value); }
         }
 
-        #endregion
+        private string _text;
+        private ObservableCollection<Activity> activity;
 
-        public ICommand LoadCommand => new Command(async () => await Load());
-        public ICommand SendCommand => new Command(async () => await Send());
-
-        public ChatViewModel(IBotService service)
-        {
-            this.service = service;
-            Activities = new ObservableCollection<Activity>();
-        }
+        #endregion Properties
 
         public async Task Load()
         {
@@ -72,7 +71,6 @@ namespace ChatBot.Clients.ViewModels
                 IsBusy = false;
                 MessagingCenter.Send<object, object>(this, "AutoScroll", Activities.Last());
             }
-            
         }
     }
 }

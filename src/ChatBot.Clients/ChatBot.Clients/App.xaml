@@ -15,6 +15,5 @@
             <converters:TypeToColumnConverter x:Key="TypeToColumnConverter" />
             <converters:TypeToTextColorConverter x:Key="TypeToTextColorConverter" />
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

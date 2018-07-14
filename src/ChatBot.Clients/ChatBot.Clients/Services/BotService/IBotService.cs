@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ChatBot.Clients.Models;
 using System.Threading.Tasks;
-using ChatBot.Clients.Models;
 
 namespace ChatBot.Clients.Services.BotService
 {
     public interface IBotService
     {
         Task<Activity> Connect();
+
         Task<Activity> SendMessage(Activity message);
     }
 }
