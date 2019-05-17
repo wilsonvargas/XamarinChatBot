@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ChatBot.Server.Dialogs
 {
     [Serializable]
-    [LuisModel("HERE_YOUR_APP_KEY", "HERE_YOUR_APP_KEY")]
+    [LuisModel(AppSettings.LUISApplicationId, AppSettings.LUISAuthoringKey)]
     public class RootDialog : LuisDialog<object>
     {
         [LuisIntent("Farewell")]

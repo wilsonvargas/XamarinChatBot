@@ -58,7 +58,7 @@ namespace ChatBot.Server.Services.TranslateService
             return activity.Text;
         }
 
-        private static async Task<string> TranslateAsync(string inputText, string inputLocale, string outputLocale)
+        public static async Task<string> TranslateAsync(string inputText, string inputLocale, string outputLocale)
         {
             try
             {
